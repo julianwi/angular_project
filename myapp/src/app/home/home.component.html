@@ -1,0 +1,30 @@
+    <div style="background: lightcyan;" *ngIf="selectedLoc.id != undefined">
+        id:<input type="number" [(ngModel)]="selectedLoc.id"><br/>
+        name:<input type="text" [(ngModel)]="selectedLoc.name"><br/>
+        location:<input type="text" [(ngModel)]="selectedLoc.loc"><br/>
+        notes:<input type="text" [(ngModel)]="selectedLoc.note"><br/>
+        <button type="button" value="add" (click)="SaveData()">save {{selectedLoc.name}}</button><br/>
+    </div>
+    <input type="button" value="add" (click)="NewData()"><br/>
+    <br/>
+    <table>
+        <tr style="background: rgb(240, 236, 236);">
+            <th>id</th>
+            <th>name</th>
+            <th>location</th>
+            <th>note</th>
+            <th>buttons</th>
+        </tr>
+        <tr *ngFor="let location of locations" [ngClass]="{'selected':location === selectedLoc, 'notselected':location === selectedLoc}">
+            <td>{{location.id}}</td>
+            <td>{{location.name}}</td>
+            <td>{{location.loc}}</td>
+            <td>{{location.note}}</td>
+            <td>
+                <input class="btn" type="button" value="details" routerLink="/detail">
+                <input class="btn" type="button" value="edit" (click)="EditData(location)"><br/>
+                <input class="btn" type="button" value="remove" (click)="RemoveData(location)">
+                <input class="btn" type="button" value="move up" *ngIf="locations.indexOf(location)!=0" (click)="MoveUp(location)">
+            </td>
+        </tr>
+    </table>

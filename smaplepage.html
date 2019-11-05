@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>idw application</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    </head>
+    <body>
+    <div ng-app="myApp" ng-controller="CRUDcontroller">
+        <h2>samplepage</h2>
+        <form style="background: lightcyan;">
+            id:<input type="number" data-ng-model="EmpModel.id"><br/>
+            name:<input type="text" data-ng-model="EmpModel.name"><br/>
+            notes:<input type="text" data-ng-model="EmpModel.note"><br/>
+            <input type="button" value="add" data-ng-click="SaveData()"><br/>
+            <label>{{EmpModel}}</label>
+        </form>
+        <br/>
+        <table border="2" style="background: rgb(240, 236, 236);">
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>note</th>
+                <th>buttons</th>
+            </tr>
+            <tr data-ng-repeat="location in locations">
+                <td>{{location.id}}</td>
+                <td>{{location.name}}</td>
+                <td>{{location.note}}</td>
+                <td>
+                    <input type="button" value="details" data-ng-click="ShowDetails(location)">
+                    <input type="button" value="update" data-ng-click="UpdateData(location)">
+                    <input type="button" value="remove" data-ng-click="RemoveData(location)">
+                    <input type="button" value="move up" data-ng-if="locations.indexOf(location)!=0" data-ng-click="MoveUp(location)">
+                </td>
+            </tr>
+        </table>
+        {{locations}}
+    </div>    
+        <script>
+            var app = angular.module("myApp", []);
+            app.controller('CRUDcontroller', function($scope) {
+                $scope.EmpModel = {
+                    id: 0,
+                    name: 'name',
+                    note: 'note',
+                };
+                $scope.locations = [];
+                $scope.SaveData = function () {
+                    var city = {
+                        id: $scope.EmpModel.id++,
+                        name: $scope.EmpModel.name,
+                        note: $scope.EmpModel.note,
+                    }
+                    $scope.locations.push(city);
+                }
+                $scope.RemoveData = function (location) {
+                    var _index = $scope.locations.indexOf(location);
+                    $scope.locations.splice(_index, 1);
+                };
+                $scope.ShowDetails = function (location) {
+                    /*$scope.EmpModel.Id = location.id;
+                    $scope.EmpModel.Name = location.name;
+                    $scope.EmpModel.note = location.note;*/
+                    $scope.EmpModel = location;
+                };
+                $scope.UpdateData = function (location) {
+                    location.name = $scope.EmpModel.name;
+                    location.note = $scope.EmpModel.note;
+                };
+                $scope.MoveUp = function (location) {
+                    var _index = $scope.locations.indexOf(location);
+                    if(_index == 0)
+                        return;
+                    [$scope.locations[_index],$scope.locations[_index-1]] = [$scope.locations[_index-1],$scope.locations[_index]];
+                };
+            });
+        </script>
+    </body>
+</html>
