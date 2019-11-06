@@ -1,1 +1,20 @@
 <p>detail works!</p>
+<mat-icon>home</mat-icon>
+<mat-icon>error</mat-icon>
+<mat-icon>home</mat-icon>
+<mat-icon>error</mat-icon>
+<mat-icon>home</mat-icon>
+<mat-icon>error</mat-icon>
+<br/>
+<mat-grid-list id="main_grid" [cols]="2" rowHeight="2:1">
+  <mat-grid-tile *ngFor="let loc of locations">
+    <h3>{{loc.name}}</h3><br/>
+    <div *ngIf="forecasts[loc.name] != undefined">
+      <font size="10">{{forecasts[loc.name].weather[0].main}}</font>
+      <img src="http://openweathermap.org/img/wn/{{forecasts[loc.name].weather[0].icon}}@2x.png">
+      <br/>
+      <font size="5">{{forecasts[loc.name].weather[0].description}}</font>
+      temp: {{forecasts[loc.name].main.temp}}&#176;C
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>

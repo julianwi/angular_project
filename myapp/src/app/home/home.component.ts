@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { SharedService } from '../shared.service';
+
+import { Model } from '../model/city';
 
 @Component({
   selector: 'app-home',
@@ -6,30 +10,40 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  count: number = 0;
-  selectedLoc = {
-    id: undefined,
-    name: 'name',
-    note: 'note',
-    loc: '0.00'
-  };
-  locations = [
-    {
-      id: this.count++,
-      name: 'Kiel',
-      note: '',
-      loc: '0.00'
-    },
-    {
-      id: this.count++,
-      name: 'Hamburg',
-      note: '',
-    }
-  ];
+
+  constructor(private service: SharedService) {
+  }
+
+  ngOnInit() {
+    this.service.getData().subscribe(data => {
+      this.locations = this.locations.concat(<Array<any>>data);
+    })
+  }
+
+  count: number = 2;
+  selectedLoc: Model.City = undefined;
+  locations: Array<Model.City> = [];// = this.service.getDummyData();
 
   NewData = function () {
+    if(this.selectedLoc != undefined) {
+      alert('save first');
+      return;
+    }
+    let nextId = 0;
+    let used = true;
+    while(used) {
+      used = false;
+      for(let loc of this.locations) {
+        if(nextId == loc.id) {
+          used = true;
+          break;
+        }
+      }
+      if(used)
+        nextId++;
+    }
     this.selectedLoc = {
-        id: this.count++,
+        id: nextId,
         name: '',
         note: '',
         loc: '0.00'
@@ -38,33 +52,47 @@ export class HomeComponent implements OnInit {
   }
   RemoveData = function (location) {
     if(location === this.selectedLoc)
-      this.selectedLoc.id = undefined;
+      this.selectedLoc = undefined;
     var _index = this.locations.indexOf(location);
     this.locations.splice(_index, 1);
   };
   EditData = function (location) {
+    if(this.selectedLoc == location)
+      return;
+    if(this.selectedLoc != undefined) {
+      alert('save first');
+      return;
+    }
     this.selectedLoc = location;
   };
-  MoveUp = function (location) {
+  MoveUp = function (location: Array<any>) {
     var _index = this.locations.indexOf(location);
     if(_index == 0)
-        return;
+      return;
     [this.locations[_index],this.locations[_index-1]] = [this.locations[_index-1],this.locations[_index]];
   };
 
   SaveData = function () {
-    this.selectedLoc = {
-      id: undefined,
-      name: 'name',
-      note: 'note',
-      loc: '0.00'
-    };
+    if(this.selectedLoc.name == '') {
+      alert('name must not be empty');
+      return;
+    }
+    this.service.postData(this.selectedLoc.id, this.selectedLoc);
+    this.selectedLoc = undefined;
   }
 
-  constructor() {
-  }
-
-  ngOnInit() {
+  DataDirty(myForm: NgForm) {
+    if(
+      (myForm.controls.id != undefined && myForm.controls.id.dirty) ||
+      (myForm.controls.name != undefined && myForm.controls.name.dirty) ||
+      (myForm.controls.loc != undefined && myForm.controls.loc.dirty) ||
+      (myForm.controls.note != undefined && myForm.controls.note.dirty)
+      ) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
 }
