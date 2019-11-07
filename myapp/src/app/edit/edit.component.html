@@ -1,10 +1,10 @@
 <p>edit works!</p>
 <div style="background: lightcyan;">
     <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
-        id:<input name="id" type="number" [(ngModel)]="selectedLoc.id"><br/>
-        name:<input name="name" type="text" [(ngModel)]="selectedLoc.name"><br/>
-        location:<input name="loc" type="text" [(ngModel)]="selectedLoc.loc"><br/>
-        notes:<input name="note" type="text" [(ngModel)]="selectedLoc.note"><br/>
+        id:<input name="id" type="number" [(ngModel)]="city.id"><br/>
+        name:<input name="name" type="text" [(ngModel)]="city.name"><br/>
+        location:<input name="loc" type="text" [(ngModel)]="city.loc"><br/>
+        notes:<input name="note" type="text" [(ngModel)]="city.note"><br/>
         <button type="button" value="add" (click)="SaveData()" [disabled]="!DataDirty(myForm)">save {{selectedLoc.name}}</button><br/>
     </form>
 </div>

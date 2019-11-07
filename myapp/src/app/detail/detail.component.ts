@@ -3,13 +3,6 @@ import { WeatherService } from '../weather.service';
 import { SharedService } from '../shared.service';
 import { Model } from '../model/city';
 
-export class Tile {
-  color: string;
-  cols: number;
-  rows: number;
-  text: string;
-}
-
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
@@ -19,6 +12,7 @@ export class DetailComponent implements OnInit {
 
   locations: Model.City[];
   forecasts: object[] = [];
+  selected: Model.City;
 
   constructor(private wService: WeatherService, private lService: SharedService) { }
 
@@ -31,6 +25,15 @@ export class DetailComponent implements OnInit {
         });
       }
     });
+  }
+
+  refresh() {
+    this.forecasts = [];
+    for(let loc of this.locations) {
+      this.wService.getForecastCity(loc.name).subscribe(data => {
+        this.forecasts[loc.name] = data;
+      });
+    }
   }
 
 }

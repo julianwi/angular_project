@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './material/material.module';
 import { EditComponent } from './edit/edit.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CitydetailComponent } from './citydetail/citydetail.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     HomeComponent,
     DetailComponent,
-    EditComponent
+    EditComponent,
+    CitydetailComponent
   ],
   imports: [
     BrowserModule,

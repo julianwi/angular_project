@@ -11,18 +11,19 @@ import { Model } from '../model/city';
 })
 export class HomeComponent implements OnInit {
 
+  count: number = 2;
+  selectedLoc: Model.City = undefined;
+  editNew: boolean = false;
+  locations: Array<Model.City> = [];
+
   constructor(private service: SharedService) {
   }
 
   ngOnInit() {
     this.service.getData().subscribe(data => {
-      this.locations = this.locations.concat(<Array<any>>data);
+      this.locations = this.locations.concat(data);
     })
   }
-
-  count: number = 2;
-  selectedLoc: Model.City = undefined;
-  locations: Array<Model.City> = [];// = this.service.getDummyData();
 
   NewData = function () {
     if(this.selectedLoc != undefined) {
@@ -48,9 +49,11 @@ export class HomeComponent implements OnInit {
         note: '',
         loc: '0.00'
     }
+    this.editNew = true;
     this.locations.push(this.selectedLoc);
   }
   RemoveData = function (location) {
+    this.service.deleteData(location.id, location);
     if(location === this.selectedLoc)
       this.selectedLoc = undefined;
     var _index = this.locations.indexOf(location);
@@ -64,6 +67,7 @@ export class HomeComponent implements OnInit {
       return;
     }
     this.selectedLoc = location;
+    this.editNew = false;
   };
   MoveUp = function (location: Array<any>) {
     var _index = this.locations.indexOf(location);
@@ -77,7 +81,12 @@ export class HomeComponent implements OnInit {
       alert('name must not be empty');
       return;
     }
-    this.service.postData(this.selectedLoc.id, this.selectedLoc);
+    if(this.editNew) {
+      this.service.createData(this.selectedLoc.id, this.selectedLoc);
+    }
+    else {
+      this.service.updateData(this.selectedLoc.id, this.selectedLoc);
+    }
     this.selectedLoc = undefined;
   }
 

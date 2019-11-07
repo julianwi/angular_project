@@ -1,8 +1,12 @@
-<h2>samplepage</h2>
-<nav>
-<ul>
-  <a style="background: lightgray; padding: 5px; display: inline-block; margin-right: 10px;" href="/" routerLink="/"><div>home</div></a>
-  <a style="background: lightgray; padding: 5px; display: inline-block;" href="/detail" routerLink="/detail"><div>details</div></a>
-</ul>
-</nav>
+<div id="navbar"><table width="100%"><tr>
+  <th width="50%">
+    <h1>Weather Monitor</h1>
+  </th>
+  <th align="right" width="50%">
+    <nav id="navigation">
+      <a class="navbtn" href="/" routerLink="/"><div>home</div></a>
+      <a class="navbtn" href="/detail" routerLink="/detail"><div>details</div></a>
+    </nav>
+  </th>
+</tr></table></div>
 <router-outlet></router-outlet>

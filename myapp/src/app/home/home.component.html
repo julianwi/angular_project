@@ -1,7 +1,7 @@
 <ng-template [ngIf]="selectedLoc != undefined" [ngIfElse]="non_selected">
-    <!--<app-edit></app-edit>-->
+    <!--<app-edit [city]="selectedLoc"></app-edit>-->
 <div style="background: lightcyan;" *ngIf="selectedLoc != undefined">
-    <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+    <form #myForm="ngForm" (ngSubmit)="SaveData()">
     id:<input name="id" type="number" [(ngModel)]="selectedLoc.id"><br/>
     name:<input name="name" type="text" [(ngModel)]="selectedLoc.name"><br/>
     location:<input name="loc" type="text" [(ngModel)]="selectedLoc.loc"><br/>

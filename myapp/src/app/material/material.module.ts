@@ -6,6 +6,7 @@ import {
     MatProgressBarModule,
     MatGridListModule,
     MatSliderModule,
+    MatProgressSpinnerModule,
 } from '@angular/material';
 
 @NgModule({
@@ -15,12 +16,14 @@ import {
         MatProgressBarModule,
         MatGridListModule,
         MatSliderModule,
+        MatProgressSpinnerModule,
     ],
     exports: [
         MatIconModule,
         MatProgressBarModule,
         MatGridListModule,
         MatSliderModule,
+        MatProgressSpinnerModule,
     ],
     providers: [
     ],
